@@ -32,16 +32,82 @@ database_path /path/to/GeoLite2-City.mmdb
 lookup_field host
 ```
 
-### output_field
+### field_prefix
 
 ```
-output_field geoip
+field_prefix geoip
+```
+
+### field_delimiter
+
+```
+field_delimiter _
 ```
 
 ### flatten
 
 ```
 flatten true
+```
+
+### continent
+
+```
+continent true
+```
+
+### country
+
+```
+country true
+```
+
+### city
+
+```
+city true
+```
+
+### location
+
+```
+location true
+```
+
+### postal
+
+```
+postal true
+```
+
+### registered_country
+
+```
+registered_country true
+```
+
+### represented_country
+
+```
+represented_country true
+```
+
+### subdivisions
+
+```
+subdivisions true
+```
+
+### traits
+
+```
+traits true
+```
+
+### connection_type
+
+```
+connection_type true
 ```
 
 ## Plugin setup examples
