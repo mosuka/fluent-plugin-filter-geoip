@@ -173,7 +173,12 @@ module Fluent
 
           if @subdivisions && geoip_hash.has_key?('subdivisions') then
             if @flatten then
-              record.merge!(to_flatten(geoip_hash['subdivisions'], [@field_prefix, 'subdivisions'], @field_delimiter))
+              i = 0
+              geoip_hash['subdivisions'].each do |subdivision|
+                record.merge!(to_flatten(subdivision, [@field_prefix, 'subdivisions', i.to_s], @field_delimiter))
+                i = i + 1
+              end
+              #record.merge!(to_flatten(geoip_hash['subdivisions'], [@field_prefix, 'subdivisions'], @field_delimiter))
             else
               record[[@field_prefix, 'subdivisions'].join(@field_delimiter)] = geoip_hash['subdivisions'].to_json
             end
