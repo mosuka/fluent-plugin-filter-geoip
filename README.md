@@ -118,8 +118,20 @@ connection_type true
 
   database_path /path/to/GeoLite2-City.mmdb
   lookup_field host
-  output_field geoip
+  field_prefix geoip
+  field_delimiter _
   flatten true
+
+  continent true
+  country true
+  city true
+  location true
+  postal true
+  registered_country true
+  represented_country true
+  subdivisions true
+  traits true
+  connection_type true
 </filter>
 ```
 
