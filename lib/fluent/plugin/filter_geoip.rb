@@ -216,16 +216,6 @@ module Fluent
 
         if hash[key].instance_of?(Hash) then
           output.merge!(to_flatten(hash[key], stack, delimiter))
-        elsif hash[key].instance_of?(Array) then
-          i = 0
-          hash[key].each do |data|
-            stack.push i
-            if data.instance_of?(Hash) then
-              output.merge!(to_flatten(data, stack, delimiter))
-            end
-            i = i + 1
-            stack.pop
-          end
         else
           output[stack.join(delimiter)] = hash[key]
         end
