@@ -1,9 +1,17 @@
 require 'maxminddb'
 require 'json'
+require 'fileutils'
+require 'open-uri'
 
 module Fluent
   class GeoIPFilter < Filter
     Fluent::Plugin.register_filter('geoip', self)
+
+    DEFAULT_DOWNLOAD_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz'
+    DEFAULT_MD5_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5'
+    DEFAULT_DATABASE_PATH = './geoip/database/GeoLite2-City.mmdb'
+    DEFAULT_MD5_PATH = './geoip/database/GeoLite2-City.md5'
+    DEFAULT_ENABLE_AUTO_UPDATE = true
 
     DEFAULT_LOOKUP_FIELD = 'ip'
     DEFAULT_FIELD_PREFIX = 'geoip'
@@ -21,8 +29,20 @@ module Fluent
     DEFAULT_TRAITS = true
     DEFAULT_CONNECTION_TYPE = true
 
-    config_param :database_path, :string, :default => nil,
+    config_param :download_url, :string, :default => DEFAULT_DOWNLOAD_URL,
                  :desc => ''
+
+    config_param :md5_url, :string, :default => DEFAULT_MD5_URL,
+                 :desc => ''
+
+    config_param :database_path, :string, :default => DEFAULT_DATABASE_PATH,
+                 :desc => ''
+
+    config_param :md5_path, :string, :default => DEFAULT_MD5_PATH,
+                 :desc => ''
+
+    config_param :enable_auto_update, :string, :default => DEFAULT_ENABLE_AUTO_UPDATE,
+                 :desc => 'Automatically updates GeoIP2 database at startup.'
 
     config_param :lookup_field, :string, :default => DEFAULT_LOOKUP_FIELD,
                  :desc => ''
@@ -73,7 +93,15 @@ module Fluent
     def configure(conf)
       super
 
-      @database_path = conf['database_path']
+      @download_url = conf.has_key?('download_url') ? conf['download_url'] : DEFAULT_DOWNLOAD_URL
+
+      @md5_url = conf.has_key?('md5_url') ? conf['md5_url'] : DEFAULT_MD5_URL
+
+      @database_path = conf.has_key?('database_path') ? conf['database_path'] : DEFAULT_DATABASE_PATH
+
+      @md5_path = conf.has_key?('md5_path') ? conf['md5_path'] : DEFAULT_MD5_PATH
+
+      @enable_auto_update = conf.has_key?('enable_auto_update') ? to_boolean(conf['enable_auto_update']) : DEFAULT_ENABLE_AUTO_UPDATE
 
       @lookup_field = conf.has_key?('lookup_field') ? conf['lookup_field'] : DEFAULT_LOOKUP_FIELD
 
@@ -102,6 +130,8 @@ module Fluent
       @traits = conf.has_key?('traits') ? to_boolean(conf['traits']) : DEFAULT_TRAITS
 
       @connection_type = conf.has_key?('connection_type') ? to_boolean(conf['connection_type']) : DEFAULT_CONNECTION_TYPE
+
+      download_database @download_url, @md5_url, @database_path, @md5_path
 
       @database = MaxMindDB.new(@database_path)
     end
@@ -234,6 +264,75 @@ module Fluent
       else
         return false
       end
-    end    
+    end
+
+    def download_database(download_url, md5_url, database_path, md5_path)
+      # database directory
+      database_dir = File.expand_path(File.dirname(database_path))
+      md5_dir = File.expand_path(File.dirname(md5_path))
+
+      # create database directory if directory does not exist.
+      FileUtils.mkdir_p(database_dir) unless File.exist?(database_dir)
+      FileUtils.mkdir_p(md5_dir) unless File.exist?(md5_dir)
+
+      # create empty md5 file if file does not exist.
+      File.open(md5_path, 'wb').close() unless File.exist?(md5_path)
+
+      # read saved md5
+      saved_md5 = nil
+      begin
+        open(md5_path, 'rb') do |data|
+          saved_md5 = data.read
+        end
+      rescue => e
+        log.warn e.message
+      end
+
+      # fetch md5
+      fetched_md5 = nil
+      begin
+        open(md5_url, 'rb') do |data|
+          fetched_md5 = data.read
+        end
+      rescue => e
+        log.warn e.message
+      end
+
+      # check md5
+      unless saved_md5 == fetched_md5 then
+        # download new database
+        download_path = database_dir + '/' + File.basename(download_url)
+        begin
+          open(download_path, 'wb') do |output|
+            open(download_url, 'rb') do |data|
+              output.write(data.read)
+            end
+          end
+        rescue => e
+          log.warn e.message
+        end
+
+        # unzip new database temporaly
+        tmp_database_path = database_dir + '/tmp_' + File.basename(database_path)
+        begin
+          open(tmp_database_path, 'wb') do |output|
+            Zlib::GzipReader.open(download_path) do |gz|
+              output.write(gz.read)
+            end
+          end
+        rescue => e
+          puts e.message
+        end
+
+        # check mkd5
+        temp_md5 = Digest::MD5.hexdigest(File.open(tmp_database_path, 'rb').read)
+        if fetched_md5 == temp_md5 then
+          FileUtils.mv(tmp_database_path, database_path)
+
+          # record new md5
+          File.write(md5_path, fetched_md5)
+        end
+      end
+    end
   end
 end
