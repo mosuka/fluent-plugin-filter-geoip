@@ -134,7 +134,11 @@ connection_type true
 <filter tail.log>
   @type geoip
 
-  database_path /path/to/GeoLite2-City.mmdb
+  download_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+  md5_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5
+  database_path ./geoip/database/GeoLite2-City.mmdb
+  md5_path ./geoip/database/GeoLite2-City.md5
+
   lookup_field host
   field_prefix geoip
   field_delimiter _

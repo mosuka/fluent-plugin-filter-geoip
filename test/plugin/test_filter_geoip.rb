@@ -13,7 +13,6 @@ class SolrOutputTest < Test::Unit::TestCase
     md5_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5
     database_path ./geoip/database/GeoLite2-City.mmdb
     md5_path ./geoip/database/GeoLite2-City.md5
-    enable_auto_update false
 
     lookup_field host
     field_prefix geoip
