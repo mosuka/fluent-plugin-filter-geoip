@@ -262,8 +262,8 @@ module Fluent
 
     def download_database(download_url, md5_url, database_path, md5_path)
       # database directory
-      database_dir = File.expand_path(File.dirname(database_path))
-      md5_dir = File.expand_path(File.dirname(md5_path))
+      database_dir = File.dirname database_path
+      md5_dir = File.dirname md5_path
 
       # create database directory if directory does not exist.
       FileUtils.mkdir_p(database_dir) unless File.exist?(database_dir)
@@ -273,11 +273,12 @@ module Fluent
       File.open(md5_path, 'wb').close() unless File.exist?(md5_path)
 
       # read saved md5
-      saved_md5 = nil
+      current_md5 = nil
       begin
         open(md5_path, 'rb') do |data|
-          saved_md5 = data.read
+          current_md5 = data.read
         end
+        log.info "Current MD5: %s" % current_md5
       rescue => e
         log.warn e.message
       end
@@ -288,20 +289,23 @@ module Fluent
         open(md5_url, 'rb') do |data|
           fetched_md5 = data.read
         end
+        log.info "Fetched MD5: %s" % fetched_md5
       rescue => e
         log.warn e.message
       end
 
       # check md5
-      unless saved_md5 == fetched_md5 then
+      unless current_md5 == fetched_md5 then
         # download new database
         download_path = database_dir + '/' + File.basename(download_url)
         begin
+          log.info "Download: %s" % download_url
           open(download_path, 'wb') do |output|
             open(download_url, 'rb') do |data|
               output.write(data.read)
             end
           end
+          log.info "Download done: %s" % download_path
         rescue => e
           log.warn e.message
         end
@@ -309,22 +313,31 @@ module Fluent
         # unzip new database temporaly
         tmp_database_path = database_dir + '/tmp_' + File.basename(database_path)
         begin
+          log.info "Unzip: %s" % download_path
           open(tmp_database_path, 'wb') do |output|
             Zlib::GzipReader.open(download_path) do |gz|
               output.write(gz.read)
             end
           end
+          log.info "Unzip done: %s" % tmp_database_path
         rescue => e
           puts e.message
         end
 
         # check mkd5
         temp_md5 = Digest::MD5.hexdigest(File.open(tmp_database_path, 'rb').read)
+        log.info "New MD5: %s" % temp_md5
         if fetched_md5 == temp_md5 then
+          log.info "Rename: %s to %s" % [tmp_database_path, database_path]
           FileUtils.mv(tmp_database_path, database_path)
+          log.info "Rename done: %s to %s" % [tmp_database_path, database_path]
 
           # record new md5
+          log.info "Save: %s" % md5_path
           File.write(md5_path, fetched_md5)
+          log.info "Save done: %s" % md5_path
+        else
+          log.info "MD5 missmatch: Fetched MD5 (%s) != New MD5 (%s) ; " % [fetched_md5, temp_md5]
         end
       end
     end
