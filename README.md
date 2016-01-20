@@ -44,12 +44,6 @@ database_path ./geoip/database/GeoLite2-City.mmdb
 md5_path ./geoip/database/GeoLite2-City.md5
 ```
 
-### enable_auto_update
-
-```
-enable_auto_update false
-```
-
 ### lookup_field
 
 ```

@@ -11,7 +11,6 @@ module Fluent
     DEFAULT_MD5_URL = 'http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5'
     DEFAULT_DATABASE_PATH = './geoip/database/GeoLite2-City.mmdb'
     DEFAULT_MD5_PATH = './geoip/database/GeoLite2-City.md5'
-    DEFAULT_ENABLE_AUTO_UPDATE = true
 
     DEFAULT_LOOKUP_FIELD = 'ip'
     DEFAULT_FIELD_PREFIX = 'geoip'
@@ -40,9 +39,6 @@ module Fluent
 
     config_param :md5_path, :string, :default => DEFAULT_MD5_PATH,
                  :desc => ''
-
-    config_param :enable_auto_update, :string, :default => DEFAULT_ENABLE_AUTO_UPDATE,
-                 :desc => 'Automatically updates GeoIP2 database at startup.'
 
     config_param :lookup_field, :string, :default => DEFAULT_LOOKUP_FIELD,
                  :desc => ''
@@ -100,8 +96,6 @@ module Fluent
       @database_path = conf.has_key?('database_path') ? conf['database_path'] : DEFAULT_DATABASE_PATH
 
       @md5_path = conf.has_key?('md5_path') ? conf['md5_path'] : DEFAULT_MD5_PATH
-
-      @enable_auto_update = conf.has_key?('enable_auto_update') ? to_boolean(conf['enable_auto_update']) : DEFAULT_ENABLE_AUTO_UPDATE
 
       @lookup_field = conf.has_key?('lookup_field') ? conf['lookup_field'] : DEFAULT_LOOKUP_FIELD
 
