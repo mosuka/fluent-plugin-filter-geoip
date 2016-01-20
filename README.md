@@ -20,10 +20,34 @@ Or install it yourself as:
 
 ## Config parameters
 
-### database_pash
+### download_url
 
 ```
-database_path /path/to/GeoLite2-City.mmdb
+download_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+```
+
+### md5_url
+
+```
+md5_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5
+```
+
+### database_path
+
+```
+database_path ./geoip/database/GeoLite2-City.mmdb
+```
+
+### md5_path
+
+```
+md5_path ./geoip/database/GeoLite2-City.md5
+```
+
+### enable_auto_update
+
+```
+enable_auto_update false
 ```
 
 ### lookup_field
