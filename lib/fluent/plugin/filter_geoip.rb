@@ -14,7 +14,7 @@ module Fluent
     DEFAULT_DATABASE_PATH = './geoip/database/GeoLite2-City.mmdb'
 
     DEFAULT_LOOKUP_FIELD = 'ip'
-    DEFAULT_FIELD_PREFIX = 'geoip'
+    DEFAULT_OUTPU_FIELD = 'geoip'
     DEFAULT_FIELD_DELIMITER = '.'
     DEFAULT_FLATTEN = false
 
@@ -49,7 +49,7 @@ module Fluent
     config_param :lookup_field, :string, :default => DEFAULT_LOOKUP_FIELD,
                  :desc => ''
 
-    config_param :field_prefix, :string, :default => DEFAULT_FIELD_PREFIX,
+    config_param :output_field, :string, :default => DEFAULT_OUTPU_FIELD,
                  :desc => ''
 
     config_param :field_delimiter, :string, :default => DEFAULT_FIELD_DELIMITER,
@@ -110,7 +110,7 @@ module Fluent
 
       @lookup_field = conf.has_key?('lookup_field') ? conf['lookup_field'] : DEFAULT_LOOKUP_FIELD
 
-      @field_prefix = conf.has_key?('field_prefix') ? conf['field_prefix'] : DEFAULT_FIELD_PREFIX
+      @output_field = conf.has_key?('output_field') ? conf['output_field'] : DEFAULT_OUTPU_FIELD
 
       @field_delimiter = conf.has_key?('field_delimiter') ? conf['field_delimiter'] : DEFAULT_FIELD_DELIMITER
 
@@ -163,9 +163,9 @@ module Fluent
             continent_hash['name'] = geoip.continent.name(@locale)
 
             if @flatten then
-              record.merge!(to_flatten(continent_hash, [@field_prefix, 'continent'], @field_delimiter))
+              record.merge!(to_flatten(continent_hash, [@output_field, 'continent'], @field_delimiter))
             else
-              record[[@field_prefix, 'continent'].join(@field_delimiter)] = continent_hash.to_json
+              record[[@output_field, 'continent'].join(@field_delimiter)] = continent_hash.to_json
             end
           end
 
@@ -178,9 +178,9 @@ module Fluent
             country_hash['name'] = geoip.country.name(@locale)
 
             if @flatten then
-              record.merge!(to_flatten(country_hash, [@field_prefix, 'country'], @field_delimiter))
+              record.merge!(to_flatten(country_hash, [@output_field, 'country'], @field_delimiter))
             else
-              record[[@field_prefix, 'country'].join(@field_delimiter)] = country_hash.to_json
+              record[[@output_field, 'country'].join(@field_delimiter)] = country_hash.to_json
             end
           end
 
@@ -193,9 +193,9 @@ module Fluent
             city_hash['name'] = geoip.city.name(@locale)
 
             if @flatten then
-              record.merge!(to_flatten(city_hash, [@field_prefix, 'city'], @field_delimiter))
+              record.merge!(to_flatten(city_hash, [@output_field, 'city'], @field_delimiter))
             else
-              record[[@field_prefix, 'city'].join(@field_delimiter)] = city_hash.to_json
+              record[[@output_field, 'city'].join(@field_delimiter)] = city_hash.to_json
             end
           end
 
@@ -208,9 +208,9 @@ module Fluent
             location_hash['time_zone'] = geoip.location.time_zone
 
             if @flatten then
-              record.merge!(to_flatten(location_hash, [@field_prefix, 'location'], @field_delimiter))
+              record.merge!(to_flatten(location_hash, [@output_field, 'location'], @field_delimiter))
             else
-              record[[@field_prefix, 'location'].join(@field_delimiter)] = location_hash.to_json
+              record[[@output_field, 'location'].join(@field_delimiter)] = location_hash.to_json
             end
           end
 
@@ -220,9 +220,9 @@ module Fluent
             postal_hash['code'] = geoip.postal.code
 
             if @flatten then
-              record.merge!(to_flatten(postal_hash, [@field_prefix, 'postal'], @field_delimiter))
+              record.merge!(to_flatten(postal_hash, [@output_field, 'postal'], @field_delimiter))
             else
-              record[[@field_prefix, 'postal'].join(@field_delimiter)] = postal_hash.to_json
+              record[[@output_field, 'postal'].join(@field_delimiter)] = postal_hash.to_json
             end
           end
 
@@ -235,9 +235,9 @@ module Fluent
             registered_country_hash['name'] = geoip.registered_country.name(@locale)
 
             if @flatten then
-              record.merge!(to_flatten(registered_country_hash, [@field_prefix, 'registered_country'], @field_delimiter))
+              record.merge!(to_flatten(registered_country_hash, [@output_field, 'registered_country'], @field_delimiter))
             else
-              record[[@field_prefix, 'registered_country'].join(@field_delimiter)] = registered_country_hash.to_json
+              record[[@output_field, 'registered_country'].join(@field_delimiter)] = registered_country_hash.to_json
             end
           end
 
@@ -250,9 +250,9 @@ module Fluent
             represented_country_hash['name'] = geoip.represented_country.name(@locale)
 
             if @flatten then
-              record.merge!(to_flatten(represented_country_hash, [@field_prefix, 'represented_country'], @field_delimiter))
+              record.merge!(to_flatten(represented_country_hash, [@output_field, 'represented_country'], @field_delimiter))
             else
-              record[[@field_prefix, 'represented_country'].join(@field_delimiter)] = represented_country_hash.to_json
+              record[[@output_field, 'represented_country'].join(@field_delimiter)] = represented_country_hash.to_json
             end
           end
 
@@ -276,11 +276,11 @@ module Fluent
             if @flatten then
               i = 0
               subdivision_arry.each do |subdivision|
-                record.merge!(to_flatten(subdivision, [@field_prefix, 'subdivisions', i.to_s], @field_delimiter))
+                record.merge!(to_flatten(subdivision, [@output_field, 'subdivisions', i.to_s], @field_delimiter))
                 i = i + 1
               end
             else
-              record[[@field_prefix, 'subdivisions'].join(@field_delimiter)] = subdivision_arry.to_json
+              record[[@output_field, 'subdivisions'].join(@field_delimiter)] = subdivision_arry.to_json
             end
           end
 
@@ -291,14 +291,14 @@ module Fluent
             traits_hash['is_satellite_provider'] = geoip.traits.is_satellite_provider
 
             if @flatten then
-              record.merge!(to_flatten(traits_hash, [@field_prefix, 'traits'], @field_delimiter))
+              record.merge!(to_flatten(traits_hash, [@output_field, 'traits'], @field_delimiter))
             else
-              record[[@field_prefix, 'traits'].join(@field_delimiter)] = traits_hash.to_json
+              record[[@output_field, 'traits'].join(@field_delimiter)] = traits_hash.to_json
             end
           end
 
           if @connection_type then
-            record[[@field_prefix, 'connection_type'].join(@field_delimiter)] = geoip.connection_type
+            record[[@output_field, 'connection_type'].join(@field_delimiter)] = geoip.connection_type
           end
 
           log.info "Record: %s" % record.inspect

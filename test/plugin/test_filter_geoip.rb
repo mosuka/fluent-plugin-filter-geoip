@@ -16,7 +16,7 @@ class SolrOutputTest < Test::Unit::TestCase
     enable_auto_download true
 
     lookup_field host
-    field_prefix geoip
+    output_field geoip
     field_delimiter .
     flatten true
 

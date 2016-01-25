@@ -20,67 +20,89 @@ Or install it yourself as:
 
 ## Config parameters
 
-### download_url
-
-```
-download_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
-```
-
-### md5_url
-
-```
-md5_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5
-```
-
-### database_path
-
-```
-database_path ./geoip/database/GeoLite2-City.mmdb
-```
-
-### md5_path
-
-```
-md5_path ./geoip/database/GeoLite2-City.md5
-```
-
 ### enable_auto_download
+
+If true, enable to download GeoIP2 database autometically (default: true).
 
 ```
 enable_auto_download true
 ```
 
+### md5_url
+
+GeoIP2 MD5 checksum URL (default: http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5)
+
+```
+md5_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5
+```
+
+### download_url
+
+GeoIP2 database download URL (default: http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz).
+
+```
+download_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+```
+
+### md5_path
+
+GeoIP2 MD5 checksum path. (default: ./geoip/database/GeoLite2-City.md5)
+
+```
+md5_path ./geoip/database/GeoLite2-City.md5
+```
+
+### database_path
+
+GeoIP2 database path. (default: ./geoip/database/GeoLite2-City.md5)
+
+```
+database_path ./geoip/database/GeoLite2-City.mmdb
+```
+
 ### lookup_field
+
+Specify the field name that IP address is stored (default: ip).
 
 ```
 lookup_field host
 ```
 
-### field_prefix
+### output_field
+
+Specify the field name that store the result (default: geoip).
 
 ```
-field_prefix geoip
+output_field geoip
 ```
 
 ### field_delimiter
 
+Specify the field delimiter (default .).
+
 ```
-field_delimiter _
+field_delimiter .
 ```
 
 ### flatten
+
+If true, to flatten the result using field_delimiter (default: true).
 
 ```
 flatten true
 ```
 
-### languages
+### locale
+
+Get the data for the specified locale (default: en).
 
 ```
-languages ["en"]
+locale en
 ```
 
 ### continent
+
+If true, to get continent information (default: true).
 
 ```
 continent true
@@ -88,11 +110,15 @@ continent true
 
 ### country
 
+If true, to get country information (default: true).
+
 ```
 country true
 ```
 
 ### city
+
+If true, to get city information (default: true).
 
 ```
 city true
@@ -100,11 +126,15 @@ city true
 
 ### location
 
+If true, to get location information (default: true).
+
 ```
 location true
 ```
 
 ### postal
+
+If true, to get postal information (default: true).
 
 ```
 postal true
@@ -112,11 +142,15 @@ postal true
 
 ### registered_country
 
+If true, to get registered country information (default: true).
+
 ```
 registered_country true
 ```
 
 ### represented_country
+
+If true, to get represented country information (default: true).
 
 ```
 represented_country true
@@ -124,17 +158,23 @@ represented_country true
 
 ### subdivisions
 
+If true, to get subdivisions information (default: true).
+
 ```
 subdivisions true
 ```
 
 ### traits
 
+If true, to get traits information (default: true).
+
 ```
 traits true
 ```
 
 ### connection_type
+
+If true, to get connection type information (default: true).
 
 ```
 connection_type true
