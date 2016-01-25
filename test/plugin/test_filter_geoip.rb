@@ -4,8 +4,6 @@ class SolrOutputTest < Test::Unit::TestCase
   def setup
     Fluent::Test.setup
 
-    # http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
-    #system('pwd')
   end
 
   CONFIG = %[
@@ -41,7 +39,7 @@ class SolrOutputTest < Test::Unit::TestCase
   def test_configure
     d = create_driver CONFIG
     assert_equal 'host', d.instance.config['lookup_field']
-    assert_equal 'geoip', d.instance.config['field_prefix']
+    assert_equal 'geoip', d.instance.config['output_field']
     assert_equal '.', d.instance.config['field_delimiter']
     assert_equal 'true', d.instance.config['flatten']
     assert_equal 'en', d.instance.config['locale']

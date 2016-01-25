@@ -32,64 +32,64 @@ module Fluent
     DEFAULT_CONNECTION_TYPE = true
 
     config_param :enable_auto_download, :string, :default => DEFAULT_ENABLE_DOWNLOAD,
-                 :desc => ''
-
-    config_param :md5_path, :string, :default => DEFAULT_MD5_PATH,
-                 :desc => ''
+                 :desc => 'If true, enable to download GeoIP2 database autometically (default: %s).' % DEFAULT_ENABLE_DOWNLOAD
 
     config_param :md5_url, :string, :default => DEFAULT_MD5_URL,
-                 :desc => ''
+                 :desc => 'GeoIP2 MD5 checksum URL (default: %s)' % DEFAULT_MD5_URL
 
     config_param :download_url, :string, :default => DEFAULT_DOWNLOAD_URL,
-                 :desc => ''
+                 :desc => 'GeoIP2 database download URL (default: %s).' % DEFAULT_DOWNLOAD_URL
+
+    config_param :md5_path, :string, :default => DEFAULT_MD5_PATH,
+                 :desc => 'GeoIP2 MD5 checksum path. (default: %s)' % DEFAULT_MD5_PATH
 
     config_param :database_path, :string, :default => DEFAULT_DATABASE_PATH,
-                 :desc => ''
+                 :desc => 'GeoIP2 database path. (default: %s)' % DEFAULT_DATABASE_PATH
 
     config_param :lookup_field, :string, :default => DEFAULT_LOOKUP_FIELD,
-                 :desc => ''
+                 :desc => 'Specify the field name that IP address is stored (default: %s).' % DEFAULT_LOOKUP_FIELD
 
     config_param :output_field, :string, :default => DEFAULT_OUTPU_FIELD,
-                 :desc => ''
+                 :desc => 'Specify the field name that store the result (default: %s).' % DEFAULT_OUTPU_FIELD
 
     config_param :field_delimiter, :string, :default => DEFAULT_FIELD_DELIMITER,
-                 :desc => ''
+                 :desc => 'Specify the field delimiter (default %s).' % DEFAULT_FIELD_DELIMITER
 
     config_param :flatten, :bool, :default => DEFAULT_FLATTEN,
-                 :desc => ''
+                 :desc => 'If true, to flatten the result using field_delimiter (default: %s).' % DEFAULT_FLATTEN
 
     config_param :locale, :string, :default => DEFAULT_LOCALE,
-                 :desc => ''
+                 :desc => 'Get the data for the specified locale (default: %s).' % DEFAULT_LOCALE
 
     config_param :continent, :bool, :default => DEFAULT_CONTINENT,
-                 :desc => ''
+                 :desc => 'If true, to get continent information (default: %s).' % DEFAULT_CONTINENT
 
     config_param :country, :bool, :default => DEFAULT_COUNTRY,
-                 :desc => ''
+                 :desc => 'If true, to get country information (default: %s).' % DEFAULT_COUNTRY
 
     config_param :city, :bool, :default => DEFAULT_CITY,
-                 :desc => ''
+                 :desc => 'If true, to get city information (default: %s).' % DEFAULT_CITY
 
     config_param :location, :bool, :default => DEFAULT_LOCATION,
-                 :desc => ''
+                 :desc => 'If true, to get location information (default: %s).' % DEFAULT_LOCATION
 
     config_param :postal, :bool, :default => DEFAULT_POSTAL,
-                 :desc => ''
+                 :desc => 'If true, to get postal information (default: %s).' % DEFAULT_POSTAL
 
     config_param :registered_country, :bool, :default => DEFAULT_REGISTERED_COUNTRY,
-                 :desc => ''
+                 :desc => 'If true, to get registered country information (default: %s).' % DEFAULT_REGISTERED_COUNTRY
 
     config_param :represented_country, :bool, :default => DEFAULT_REPRESENTED_COUNTRY,
-                 :desc => ''
+                 :desc => 'If true, to get represented country information (default: %s).' % DEFAULT_REPRESENTED_COUNTRY
 
     config_param :subdivisions, :bool, :default => DEFAULT_SUBDIVISIONS,
-                 :desc => ''
+                 :desc => 'If true, to get subdivisions information (default: %s).' % DEFAULT_SUBDIVISIONS
 
     config_param :traits, :bool, :default => DEFAULT_TRAITS,
-                 :desc => ''
+                 :desc => 'If true, to get traits information (default: %s).' % DEFAULT_TRAITS
 
     config_param :connection_type, :bool, :default => DEFAULT_CONNECTION_TYPE,
-                 :desc => ''
+                 :desc => 'If true, to get connection type information (default: %s).' % DEFAULT_CONNECTION_TYPE
 
     def initialize
       super
@@ -97,46 +97,6 @@ module Fluent
 
     def configure(conf)
       super
-
-      @enable_auto_download = conf.has_key?('enable_auto_download') ? conf['enable_auto_download'] : DEFAULT_ENABLE_DOWNLOAD
-
-      @md5_url = conf.has_key?('md5_url') ? conf['md5_url'] : DEFAULT_MD5_URL
-
-      @download_url = conf.has_key?('download_url') ? conf['download_url'] : DEFAULT_DOWNLOAD_URL
-
-      @md5_path = conf.has_key?('md5_path') ? conf['md5_path'] : DEFAULT_MD5_PATH
-
-      @database_path = conf.has_key?('database_path') ? conf['database_path'] : DEFAULT_DATABASE_PATH
-
-      @lookup_field = conf.has_key?('lookup_field') ? conf['lookup_field'] : DEFAULT_LOOKUP_FIELD
-
-      @output_field = conf.has_key?('output_field') ? conf['output_field'] : DEFAULT_OUTPU_FIELD
-
-      @field_delimiter = conf.has_key?('field_delimiter') ? conf['field_delimiter'] : DEFAULT_FIELD_DELIMITER
-
-      @flatten = conf.has_key?('flatten') ? to_boolean(conf['flatten']) : DEFAULT_FLATTEN
-
-      @locale = conf.has_key?('locale') ? conf['locale'] : DEFAULT_LOCALE
-
-      @continent = conf.has_key?('continent') ? to_boolean(conf['continent']) : DEFAULT_CONTINENT
-
-      @country = conf.has_key?('country') ? to_boolean(conf['country']) : DEFAULT_COUNTRY
-
-      @city = conf.has_key?('city') ? to_boolean(conf['city']) : DEFAULT_CITY
-
-      @location = conf.has_key?('location') ? to_boolean(conf['location']) : DEFAULT_LOCATION
-
-      @postal = conf.has_key?('postal') ? to_boolean(conf['postal']) : DEFAULT_POSTAL
-
-      @registered_country = conf.has_key?('registered_country') ? to_boolean(conf['registered_country']) : DEFAULT_REGISTERED_COUNTRY
-
-      @represented_country = conf.has_key?('represented_country') ? to_boolean(conf['represented_country']) : DEFAULT_REPRESENTED_COUNTRY
-
-      @subdivisions = conf.has_key?('subdivisions') ? to_boolean(conf['subdivisions']) : DEFAULT_SUBDIVISIONS
-
-      @traits = conf.has_key?('traits') ? to_boolean(conf['traits']) : DEFAULT_TRAITS
-
-      @connection_type = conf.has_key?('connection_type') ? to_boolean(conf['connection_type']) : DEFAULT_CONNECTION_TYPE
 
       if enable_auto_download then
         download_database @download_url, @md5_url, @database_path, @md5_path
@@ -152,8 +112,6 @@ module Fluent
         geoip = @database.lookup(ip)
 
         if geoip.found? then
-          #geoip_hash = geoip.to_hash
-
           if @continent then
             continent_hash = {}
 
