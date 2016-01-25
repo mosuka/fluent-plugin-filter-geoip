@@ -44,6 +44,12 @@ database_path ./geoip/database/GeoLite2-City.mmdb
 md5_path ./geoip/database/GeoLite2-City.md5
 ```
 
+### enable_auto_download
+
+```
+enable_auto_download true
+```
+
 ### lookup_field
 
 ```
@@ -66,6 +72,12 @@ field_delimiter _
 
 ```
 flatten true
+```
+
+### languages
+
+```
+languages ["en"]
 ```
 
 ### continent
@@ -134,15 +146,18 @@ connection_type true
 <filter tail.log>
   @type geoip
 
-  download_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+  enable_auto_download true
   md5_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5
-  database_path ./geoip/database/GeoLite2-City.mmdb
+  download_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
   md5_path ./geoip/database/GeoLite2-City.md5
+  database_path ./geoip/database/GeoLite2-City.mmdb
 
   lookup_field host
   field_prefix geoip
-  field_delimiter _
+  field_delimiter .
   flatten true
+
+  locale en
 
   continent true
   country true
@@ -161,14 +176,14 @@ Assuming following inputs are coming:
 
 ```javascript
 {
-  "host":"212.99.123.25",
+  "host":"180.195.25.228",
   "user":"-",
   "method":"GET",
-  "path":"/item/sports/4981",
+  "path":"/category/giftcards?from=20",
   "code":"200",
-  "size":"94",
-  "referer":"/category/electronics",
-  "agent":"Mozilla/5.0 (Windows NT 6.0; rv:10.0.1) Gecko/20100101 Firefox/10.0.1"
+  "size":"63",
+  "referer":"-",
+  "agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0.1) Gecko/20100101 Firefox/9.0.1"
 }
 ```
 
@@ -176,75 +191,51 @@ then output bocomes as belows:
 
 ```javascript
 {
-  "host":"212.99.123.25",
+  "host":"180.195.25.228",
   "user":"-",
   "method":"GET",
-  "path":"/item/sports/4981",
+  "path":"/category/giftcards?from=20",
   "code":"200",
-  "size":"94",
-  "referer":"/category/electronics",
-  "agent":"Mozilla/5.0 (Windows NT 6.0; rv:10.0.1) Gecko/20100101 Firefox/10.0.1",
-  "geoip_continent_code":"EU",
-  "geoip_continent_geoname_id":6255148,
-  "geoip_continent_names_de":"Europa",
-  "geoip_continent_names_en":"Europe",
-  "geoip_continent_names_es":"Europa",
-  "geoip_continent_names_fr":"Europe",
-  "geoip_continent_names_ja":"ヨーロッパ",
-  "geoip_continent_names_pt-BR":"Europa",
-  "geoip_continent_names_ru":"Европа",
-  "geoip_continent_names_zh-CN":"欧洲",
-  "geoip_country_geoname_id":3017382,
-  "geoip_country_iso_code":"FR",
-  "geoip_country_names_de":"Frankreich",
-  "geoip_country_names_en":"France",
-  "geoip_country_names_es":"Francia",
-  "geoip_country_names_fr":"France",
-  "geoip_country_names_ja":"フランス共和国",
-  "geoip_country_names_pt-BR":"França",
-  "geoip_country_names_ru":"Франция",
-  "geoip_country_names_zh-CN":"法国",
-  "geoip_city_geoname_id":3038354,
-  "geoip_city_names_de":"Aix-en-Provence",
-  "geoip_city_names_en":"Aix-en-Provence",
-  "geoip_city_names_es":"Aix-en-Provence",
-  "geoip_city_names_fr":"Aix-en-Provence",
-  "geoip_city_names_ja":"エクス＝アン＝プロヴァンス",
-  "geoip_city_names_pt-BR":"Aix-en-Provence",
-  "geoip_city_names_ru":"Экс-ан-Прованс",
-  "geoip_city_names_zh-CN":"普罗旺斯地区艾克斯",
-  "geoip_location_latitude":43.5283,
-  "geoip_location_longitude":5.4497,
-  "geoip_location_time_zone":"Europe/Paris",
-  "geoip_postal_code":"13090",
-  "geoip_registered_country_geoname_id":3017382,
-  "geoip_registered_country_iso_code":"FR",
-  "geoip_registered_country_names_de":"Frankreich",
-  "geoip_registered_country_names_en":"France",
-  "geoip_registered_country_names_es":"Francia",
-  "geoip_registered_country_names_fr":"France",
-  "geoip_registered_country_names_ja":"フランス共和国",
-  "geoip_registered_country_names_pt-BR":"França",
-  "geoip_registered_country_names_ru":"Франция",
-  "geoip_registered_country_names_zh-CN":"法国",
-  "geoip_subdivisions_0_geoname_id":2985244,
-  "geoip_subdivisions_0_iso_code":"U",
-  "geoip_subdivisions_0_names_de":"Provence-Alpes-Côte d’Azur",
-  "geoip_subdivisions_0_names_en":"Provence-Alpes-Côte d'Azur",
-  "geoip_subdivisions_0_names_es":"Provenza-Alpes-Costa Azul",
-  "geoip_subdivisions_0_names_fr":"Provence-Alpes-Côte d'Azur",
-  "geoip_subdivisions_0_names_ja":"プロヴァンス＝アルプ＝コート・ダジュール地域圏",
-  "geoip_subdivisions_0_names_pt-BR":"Provença-Alpes-Costa Azul",
-  "geoip_subdivisions_0_names_ru":"Прованс — Альпы — Лазурный Берег",
-  "geoip_subdivisions_0_names_zh-CN":"普罗旺斯-阿尔卑斯-蓝色海岸",
-  "geoip_subdivisions_1_geoname_id":3031359,
-  "geoip_subdivisions_1_iso_code":"13",
-  "geoip_subdivisions_1_names_de":"Bouches-du-Rhône",
-  "geoip_subdivisions_1_names_en":"Bouches-du-Rhône",
-  "geoip_subdivisions_1_names_es":"Bocas del Ródano",
-  "geoip_subdivisions_1_names_fr":"Bouches-du-Rhône",
-  "geoip_subdivisions_1_names_pt-BR":"Bocas do Ródano",
-  "geoip_localtion_latlon":"43.5283,5.4497"
+  "size":"63",
+  "referer":"-",
+  "agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0.1) Gecko/20100101 Firefox/9.0.1",
+  "geoip.continent.code":"AS",
+  "geoip.continent.geoname_id":6255147,
+  "geoip.continent.iso_code":null,
+  "geoip.continent.name":"Asia",
+  "geoip.country.code":null,
+  "geoip.country.geoname_id":1694008,
+  "geoip.country.iso_code":"PH",
+  "geoip.country.name":"Philippines",
+  "geoip.city.code":null,
+  "geoip.city.geoname_id":1728893,
+  "geoip.city.iso_code":null,
+  "geoip.city.name":"Bagumbayan",
+  "geoip.location.latitude":13.45,
+  "geoip.location.longitude":123.6667,
+  "geoip.location.metro_code":null,
+  "geoip.location.time_zone":"Asia/Manila",
+  "geoip.postal.code":"4513",
+  "geoip.registered_country.code":null,
+  "geoip.registered_country.geoname_id":1694008,
+  "geoip.registered_country.iso_code":"PH",
+  "geoip.registered_country.name":"Philippines",
+  "geoip.represented_country.code":null,
+  "geoip.represented_country.geoname_id":null,
+  "geoip.represented_country.iso_code":null,
+  "geoip.represented_country.name":null,
+  "geoip.subdivisions.0.code":null,
+  "geoip.subdivisions.0.geoname_id":7521310,
+  "geoip.subdivisions.0.iso_code":"05",
+  "geoip.subdivisions.0.name":"Bicol",
+  "geoip.subdivisions.1.code":null,
+  "geoip.subdivisions.1.geoname_id":1731616,
+  "geoip.subdivisions.1.iso_code":"ALB",
+  "geoip.subdivisions.1.name":"Province of Albay",
+  "geoip.traits.is_anonymous_proxy":null,
+  "geoip.traits.is_satellite_provider":null,
+  "geoip.connection_type":null,
+  "geoip_localtion_latlon":""
 }
 ```
 
