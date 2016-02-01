@@ -115,102 +115,166 @@ module Fluent
           if @continent then
             continent_hash = {}
 
-            continent_hash['code'] = geoip.continent.code
-            continent_hash['geoname_id'] = geoip.continent.geoname_id
-            continent_hash['iso_code'] = geoip.continent.iso_code
-            continent_hash['name'] = geoip.continent.name(@locale)
+            unless geoip.continent.code.nil? then
+              continent_hash['code'] = geoip.continent.code
+            end
+            unless geoip.continent.geoname_id.nil? then
+              continent_hash['geoname_id'] = geoip.continent.geoname_id
+            end
+            unless geoip.continent.iso_code.nil? then
+              continent_hash['iso_code'] = geoip.continent.iso_code
+            end
+            unless geoip.continent.name(@locale).nil? then
+              continent_hash['name'] = geoip.continent.name(@locale)
+            end
 
-            if @flatten then
-              record.merge!(to_flatten(continent_hash, [@output_field, 'continent'], @field_delimiter))
-            else
-              record[[@output_field, 'continent'].join(@field_delimiter)] = continent_hash.to_json
+            unless continent_hash.empty? then
+              if @flatten then
+                record.merge!(to_flatten(continent_hash, [@output_field, 'continent'], @field_delimiter))
+              else
+                record[[@output_field, 'continent'].join(@field_delimiter)] = continent_hash.to_json
+              end
             end
           end
 
           if @country then
             country_hash = {}
 
-            country_hash['code'] = geoip.country.code
-            country_hash['geoname_id'] = geoip.country.geoname_id
-            country_hash['iso_code'] = geoip.country.iso_code
-            country_hash['name'] = geoip.country.name(@locale)
+            unless geoip.country.code.nil? then
+              country_hash['code'] = geoip.country.code
+            end
+            unless geoip.country.geoname_id.nil? then
+              country_hash['geoname_id'] = geoip.country.geoname_id
+            end
+            unless geoip.country.iso_code.nil? then
+              country_hash['iso_code'] = geoip.country.iso_code
+            end
+            unless geoip.country.name(@locale).nil? then
+              country_hash['name'] = geoip.country.name(@locale)
+            end
 
-            if @flatten then
-              record.merge!(to_flatten(country_hash, [@output_field, 'country'], @field_delimiter))
-            else
-              record[[@output_field, 'country'].join(@field_delimiter)] = country_hash.to_json
+            unless country_hash.empty? then
+              if @flatten then
+                record.merge!(to_flatten(country_hash, [@output_field, 'country'], @field_delimiter))
+              else
+                record[[@output_field, 'country'].join(@field_delimiter)] = country_hash.to_json
+              end
             end
           end
 
           if @city then
             city_hash = {}
 
-            city_hash['code'] = geoip.city.code
-            city_hash['geoname_id'] = geoip.city.geoname_id
-            city_hash['iso_code'] = geoip.city.iso_code
-            city_hash['name'] = geoip.city.name(@locale)
+            unless geoip.city.code.nil? then
+              city_hash['code'] = geoip.city.code
+            end
+            unless geoip.city.geoname_id.nil? then
+              city_hash['geoname_id'] = geoip.city.geoname_id
+            end
+            unless geoip.city.iso_code.nil? then
+              city_hash['iso_code'] = geoip.city.iso_code
+            end
+            unless geoip.city.name(@locale).nil? then
+              city_hash['name'] = geoip.city.name(@locale)
+            end
 
-            if @flatten then
-              record.merge!(to_flatten(city_hash, [@output_field, 'city'], @field_delimiter))
-            else
-              record[[@output_field, 'city'].join(@field_delimiter)] = city_hash.to_json
+            unless city_hash.empty? then
+              if @flatten then
+                record.merge!(to_flatten(city_hash, [@output_field, 'city'], @field_delimiter))
+              else
+                record[[@output_field, 'city'].join(@field_delimiter)] = city_hash.to_json
+              end
             end
           end
 
           if @location then
             location_hash = {}
 
-            location_hash['latitude'] = geoip.location.latitude
-            location_hash['longitude'] = geoip.location.longitude
-            location_hash['metro_code'] = geoip.location.metro_code
-            location_hash['time_zone'] = geoip.location.time_zone
+            unless geoip.location.latitude.nil? then
+              location_hash['latitude'] = geoip.location.latitude
+            end
+            unless geoip.location.longitude.nil? then
+              location_hash['longitude'] = geoip.location.longitude
+            end
+            unless geoip.location.metro_code.nil? then
+              location_hash['metro_code'] = geoip.location.metro_code
+            end
+            unless geoip.location.time_zone.nil? then
+              location_hash['time_zone'] = geoip.location.time_zone
+            end
 
-            if @flatten then
-              record.merge!(to_flatten(location_hash, [@output_field, 'location'], @field_delimiter))
-            else
-              record[[@output_field, 'location'].join(@field_delimiter)] = location_hash.to_json
+            unless location_hash.empty? then
+              if @flatten then
+                record.merge!(to_flatten(location_hash, [@output_field, 'location'], @field_delimiter))
+              else
+                record[[@output_field, 'location'].join(@field_delimiter)] = location_hash.to_json
+              end
             end
           end
 
           if @postal then
             postal_hash = {}
 
-            postal_hash['code'] = geoip.postal.code
+            unless geoip.postal.code.nil? then
+              postal_hash['code'] = geoip.postal.code
+            end
 
-            if @flatten then
-              record.merge!(to_flatten(postal_hash, [@output_field, 'postal'], @field_delimiter))
-            else
-              record[[@output_field, 'postal'].join(@field_delimiter)] = postal_hash.to_json
+            unless postal_hash.empty? then
+              if @flatten then
+                record.merge!(to_flatten(postal_hash, [@output_field, 'postal'], @field_delimiter))
+              else
+                record[[@output_field, 'postal'].join(@field_delimiter)] = postal_hash.to_json
+              end
             end
           end
 
           if @registered_country then
             registered_country_hash = {}
 
-            registered_country_hash['code'] = geoip.registered_country.code
-            registered_country_hash['geoname_id'] = geoip.registered_country.geoname_id
-            registered_country_hash['iso_code'] = geoip.registered_country.iso_code
-            registered_country_hash['name'] = geoip.registered_country.name(@locale)
+            unless geoip.registered_country.code.nil? then
+              registered_country_hash['code'] = geoip.registered_country.code
+            end
+            unless geoip.registered_country.geoname_id.nil? then
+              registered_country_hash['geoname_id'] = geoip.registered_country.geoname_id
+            end
+            unless geoip.registered_country.iso_code.nil? then
+              registered_country_hash['iso_code'] = geoip.registered_country.iso_code
+            end
+            unless geoip.registered_country.name(@locale).nil? then
+              registered_country_hash['name'] = geoip.registered_country.name(@locale)
+            end
 
-            if @flatten then
-              record.merge!(to_flatten(registered_country_hash, [@output_field, 'registered_country'], @field_delimiter))
-            else
-              record[[@output_field, 'registered_country'].join(@field_delimiter)] = registered_country_hash.to_json
+            unless registered_country_hash.empty? then
+              if @flatten then
+                record.merge!(to_flatten(registered_country_hash, [@output_field, 'registered_country'], @field_delimiter))
+              else
+                record[[@output_field, 'registered_country'].join(@field_delimiter)] = registered_country_hash.to_json
+              end
             end
           end
 
           if @represented_country then
             represented_country_hash = {}
 
-            represented_country_hash['code'] = geoip.represented_country.code
-            represented_country_hash['geoname_id'] = geoip.represented_country.geoname_id
-            represented_country_hash['iso_code'] = geoip.represented_country.iso_code
-            represented_country_hash['name'] = geoip.represented_country.name(@locale)
+            unless geoip.represented_country.code.nil? then
+              represented_country_hash['code'] = geoip.represented_country.code
+            end
+            unless geoip.represented_country.geoname_id.nil? then
+              represented_country_hash['geoname_id'] = geoip.represented_country.geoname_id
+            end
+            unless geoip.represented_country.iso_code.nil? then
+              represented_country_hash['iso_code'] = geoip.represented_country.iso_code
+            end
+            unless geoip.represented_country.name(@locale).nil? then
+              represented_country_hash['name'] = geoip.represented_country.name(@locale)
+            end
 
-            if @flatten then
-              record.merge!(to_flatten(represented_country_hash, [@output_field, 'represented_country'], @field_delimiter))
-            else
-              record[[@output_field, 'represented_country'].join(@field_delimiter)] = represented_country_hash.to_json
+            unless represented_country_hash.empty? then
+              if @flatten then
+                record.merge!(to_flatten(represented_country_hash, [@output_field, 'represented_country'], @field_delimiter))
+              else
+                record[[@output_field, 'represented_country'].join(@field_delimiter)] = represented_country_hash.to_json
+              end
             end
           end
 
@@ -221,42 +285,62 @@ module Fluent
             geoip.subdivisions.each do |subdivision|
               subdivision_hash = {}
 
-              subdivision_hash['code'] = subdivision.code
-              subdivision_hash['geoname_id'] = subdivision.geoname_id
-              subdivision_hash['iso_code'] = subdivision.iso_code
-              subdivision_hash['name'] = subdivision.name(@locale)
+              unless subdivision.code.nil? then
+                subdivision_hash['code'] = subdivision.code
+              end
+              unless subdivision.geoname_id.nil? then
+                subdivision_hash['geoname_id'] = subdivision.geoname_id
+              end
+              unless subdivision.iso_code.nil? then
+                subdivision_hash['iso_code'] = subdivision.iso_code
+              end
+              unless subdivision.name(@locale).nil? then
+                subdivision_hash['name'] = subdivision.name(@locale)
+              end
 
-              subdivision_arry.push(subdivision_hash)
+              unless subdivision_hash.empty? then
+                subdivision_arry.push(subdivision_hash)
+              end
 
               i = i + 1
             end
 
-            if @flatten then
-              i = 0
-              subdivision_arry.each do |subdivision|
-                record.merge!(to_flatten(subdivision, [@output_field, 'subdivisions', i.to_s], @field_delimiter))
-                i = i + 1
+            unless subdivision_arry.empty? then
+              if @flatten then
+                i = 0
+                subdivision_arry.each do |subdivision|
+                  record.merge!(to_flatten(subdivision, [@output_field, 'subdivisions', i.to_s], @field_delimiter))
+                  i = i + 1
+                end
+              else
+                record[[@output_field, 'subdivisions'].join(@field_delimiter)] = subdivision_arry.to_json
               end
-            else
-              record[[@output_field, 'subdivisions'].join(@field_delimiter)] = subdivision_arry.to_json
             end
           end
 
           if @traits then
             traits_hash = {}
 
-            traits_hash['is_anonymous_proxy'] = geoip.traits.is_anonymous_proxy
-            traits_hash['is_satellite_provider'] = geoip.traits.is_satellite_provider
+            unless geoip.traits.is_anonymous_proxy.nil? then
+              traits_hash['is_anonymous_proxy'] = geoip.traits.is_anonymous_proxy
+            end
+            unless geoip.traits.is_satellite_provider.nil? then
+              traits_hash['is_satellite_provider'] = geoip.traits.is_satellite_provider
+            end
 
-            if @flatten then
-              record.merge!(to_flatten(traits_hash, [@output_field, 'traits'], @field_delimiter))
-            else
-              record[[@output_field, 'traits'].join(@field_delimiter)] = traits_hash.to_json
+            unless traits_hash.empty? then
+              if @flatten then
+                record.merge!(to_flatten(traits_hash, [@output_field, 'traits'], @field_delimiter))
+              else
+                record[[@output_field, 'traits'].join(@field_delimiter)] = traits_hash.to_json
+              end
             end
           end
 
           if @connection_type then
-            record[[@output_field, 'connection_type'].join(@field_delimiter)] = geoip.connection_type
+            unless geoip.connection_type.nil? then
+              record[[@output_field, 'connection_type'].join(@field_delimiter)] = geoip.connection_type
+            end
           end
 
           log.info "Record: %s" % record.inspect
@@ -284,16 +368,6 @@ module Fluent
       end
 
       return output
-    end
-
-    def to_boolean(string)
-      if string== true || string =~ (/(true|t|yes|y|1)$/i) then
-        return true
-      elsif string== false || string.nil? || string =~ (/(false|f|no|n|0)$/i)
-        return false
-      else
-        return false
-      end
     end
 
     def download_database(download_url, md5_url, database_path, md5_path)

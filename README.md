@@ -275,7 +275,6 @@ then output bocomes as belows:
   "geoip.traits.is_anonymous_proxy":null,
   "geoip.traits.is_satellite_provider":null,
   "geoip.connection_type":null,
-  "geoip_localtion_latlon":""
 }
 ```
 
