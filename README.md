@@ -7,7 +7,7 @@ This is a [Fluentd](http://fluentd.org/) filter plugin for adding [GeoIP data](h
 Add this line to your application's Gemfile:
 
 ```
-gem 'fluent-plugin-output-geoip'
+gem 'fluent-plugin-filter-geoip'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install fluent-plugin-output-geoip
+    $ gem install fluent-plugin-filter-geoip
 
 ## Config parameters
 
