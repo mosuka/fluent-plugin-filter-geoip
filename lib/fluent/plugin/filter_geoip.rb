@@ -31,7 +31,7 @@ module Fluent
     DEFAULT_TRAITS = true
     DEFAULT_CONNECTION_TYPE = true
 
-    config_param :enable_auto_download, :string, :default => DEFAULT_ENABLE_DOWNLOAD,
+    config_param :enable_auto_download, :bool, :default => DEFAULT_ENABLE_DOWNLOAD,
                  :desc => 'If true, enable to download GeoIP2 database autometically (default: %s).' % DEFAULT_ENABLE_DOWNLOAD
 
     config_param :md5_url, :string, :default => DEFAULT_MD5_URL,
