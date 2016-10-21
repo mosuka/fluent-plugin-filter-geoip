@@ -109,7 +109,14 @@ module Fluent
       ip = record[@lookup_field]
 
       unless ip.nil? then
-        geoip = @database.lookup(ip)
+
+        geoip = {}
+        begin
+          geoip = @database.lookup(ip)
+        rescue IPAddr::InvalidAddressError => e
+          # Do nothing if if InvalidAddressError
+          return record
+        end
 
         if geoip.found? then
           if @continent then
@@ -343,7 +350,7 @@ module Fluent
             end
           end
 
-          log.info "Record: %s" % record.inspect
+          log.debug "Record: %s" % record.inspect
         else
           log.warn "It was not possible to look up the #{ip}."
         end
