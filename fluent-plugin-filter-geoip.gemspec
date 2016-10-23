@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "fluent-plugin-filter-geoip"
-  spec.version       = "0.3.0"
+  spec.version       = "0.3.1"
   spec.authors       = ["Minoru Osuka"]
   spec.email         = ["minoru.osuka@gmail.com"]
 
@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'fluentd', '~> 0.12.19'
   spec.add_runtime_dependency 'maxminddb', '~> 0.1.8'
 
-  spec.add_development_dependency 'bundler', '~> 1.11.2'
+  spec.add_development_dependency 'bundler', '~> 1.12.4'
   spec.add_development_dependency 'rake', '~> 10.5.0'
   spec.add_development_dependency 'test-unit', '~> 3.1.5'
   spec.add_development_dependency 'minitest', '~> 5.8.3'

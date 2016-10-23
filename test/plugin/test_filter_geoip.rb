@@ -64,7 +64,7 @@ class SolrOutputTest < Test::Unit::TestCase
     end
 
     emits = d.emits
-    
+
     assert_equal 1, emits.length
 
     assert_equal 'test', emits[0][0]
@@ -82,16 +82,16 @@ class SolrOutputTest < Test::Unit::TestCase
     assert_equal 'France', h['geoip.country.name']
 
     assert_equal nil, h['geoip.city.code']
-    assert_equal 3038354, h['geoip.city.geoname_id']
+    assert_equal nil, h['geoip.city.geoname_id']
     assert_equal nil, h['geoip.city.iso_code']
-    assert_equal 'Aix-en-Provence', h['geoip.city.name']
+    assert_equal nil, h['geoip.city.name']
 
-    assert_equal 43.5283, h['geoip.location.latitude']
-    assert_equal 5.4497, h['geoip.location.longitude']
+    assert_equal 48.8582, h['geoip.location.latitude']
+    assert_equal 2.3387000000000002, h['geoip.location.longitude']
     assert_equal nil, h['geoip.location.metro_code']
     assert_equal 'Europe/Paris', h['geoip.location.time_zone']
 
-    assert_equal '13090', h['geoip.postal.code']
+    assert_equal nil, h['geoip.postal.code']
 
     assert_equal nil, h['geoip.registered_country.code']
     assert_equal 3017382, h['geoip.registered_country.geoname_id']
@@ -104,14 +104,14 @@ class SolrOutputTest < Test::Unit::TestCase
     assert_equal nil, h['geoip.represented_country.name']
 
     assert_equal nil, h['geoip.subdivisions.0.code']
-    assert_equal 2985244, h['geoip.subdivisions.0.geoname_id']
-    assert_equal 'U', h['geoip.subdivisions.0.iso_code']
-    assert_equal "Provence-Alpes-C\u00F4te d'Azur", h['geoip.subdivisions.0.name']
+    assert_equal nil, h['geoip.subdivisions.0.geoname_id']
+    assert_equal nil, h['geoip.subdivisions.0.iso_code']
+    assert_equal nil, h['geoip.subdivisions.0.name']
 
     assert_equal nil, h['geoip.subdivisions.1.code']
-    assert_equal 3031359, h['geoip.subdivisions.1.geoname_id']
-    assert_equal '13', h['geoip.subdivisions.1.iso_code']
-    assert_equal "Bouches-du-Rh\u00F4ne", h['geoip.subdivisions.1.name']
+    assert_equal nil, h['geoip.subdivisions.1.geoname_id']
+    assert_equal nil, h['geoip.subdivisions.1.iso_code']
+    assert_equal nil, h['geoip.subdivisions.1.name']
 
     assert_equal nil, h['geoip.traits.is_anonymous_proxy']
     assert_equal nil, h['geoip.traits.is_satellite_provider']
