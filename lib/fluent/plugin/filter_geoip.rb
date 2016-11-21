@@ -298,16 +298,16 @@ module Fluent
               subdivision_hash = {}
 
               unless subdivision.code.nil? then
-                subdivision_hash['code'] = subdivision.code
+                subdivision_hash['code_%d' % [i]] = subdivision.code
               end
               unless subdivision.geoname_id.nil? then
-                subdivision_hash['geoname_id'] = subdivision.geoname_id
+                subdivision_hash['geoname_id_%d' % [i]] = subdivision.geoname_id
               end
               unless subdivision.iso_code.nil? then
-                subdivision_hash['iso_code'] = subdivision.iso_code
+                subdivision_hash['iso_code_%d' % [i]] = subdivision.iso_code
               end
               unless subdivision.name(@locale).nil? then
-                subdivision_hash['name'] = subdivision.name(@locale)
+                subdivision_hash['name_%d' % [i]] = subdivision.name(@locale)
               end
 
               unless subdivision_hash.empty? then
@@ -319,10 +319,8 @@ module Fluent
 
             unless subdivision_arry.empty? then
               if @flatten then
-                i = 0
                 subdivision_arry.each do |subdivision|
-                  record.merge!(to_flatten(subdivision, [@output_field, 'subdivisions', i.to_s], @field_delimiter))
-                  i = i + 1
+                  record.merge!(to_flatten(subdivision, [@output_field, 'subdivisions'], @field_delimiter))
                 end
               else
                 record[@output_field].merge!({'subdivisions' => subdivision_arry})
