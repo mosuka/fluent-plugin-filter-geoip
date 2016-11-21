@@ -86,10 +86,10 @@ field_delimiter .
 
 ### flatten
 
-If true, to flatten the result using field_delimiter (default: true).
+If true, to flatten the result using field_delimiter (default: false).
 
 ```
-flatten true
+flatten false
 ```
 
 ### locale
@@ -192,10 +192,10 @@ connection_type true
   md5_path ./geoip/database/GeoLite2-City.md5
   database_path ./geoip/database/GeoLite2-City.mmdb
 
-  lookup_field host
+  lookup_field clientip
   field_prefix geoip
   field_delimiter .
-  flatten true
+  flatten false
 
   locale en
 
@@ -216,14 +216,7 @@ Assuming following inputs are coming:
 
 ```javascript
 {
-  "host":"180.195.25.228",
-  "user":"-",
-  "method":"GET",
-  "path":"/category/giftcards?from=20",
-  "code":"200",
-  "size":"63",
-  "referer":"-",
-  "agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0.1) Gecko/20100101 Firefox/9.0.1"
+  "clientip": "200.114.49.218"
 }
 ```
 
@@ -231,35 +224,38 @@ then output bocomes as belows:
 
 ```javascript
 {
-  "host":"180.195.25.228",
-  "user":"-",
-  "method":"GET",
-  "path":"/category/giftcards?from=20",
-  "code":"200",
-  "size":"63",
-  "referer":"-",
-  "agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:9.0.1) Gecko/20100101 Firefox/9.0.1",
-  "geoip.continent.code":"AS",
-  "geoip.continent.geoname_id":6255147,
-  "geoip.continent.name":"Asia",
-  "geoip.country.geoname_id":1694008,
-  "geoip.country.iso_code":"PH",
-  "geoip.country.name":"Philippines",
-  "geoip.city.geoname_id":1728893,
-  "geoip.city.name":"Bagumbayan",
-  "geoip.location.latitude":13.45,
-  "geoip.location.longitude":123.6667,
-  "geoip.location.time_zone":"Asia/Manila",
-  "geoip.postal.code":"4513",
-  "geoip.registered_country.geoname_id":1694008,
-  "geoip.registered_country.iso_code":"PH",
-  "geoip.registered_country.name":"Philippines",
-  "geoip.subdivisions.0.geoname_id":7521310,
-  "geoip.subdivisions.0.iso_code":"05",
-  "geoip.subdivisions.0.name":"Bicol",
-  "geoip.subdivisions.1.geoname_id":1731616,
-  "geoip.subdivisions.1.iso_code":"ALB",
-  "geoip.subdivisions.1.name":"Province of Albay",
+  "clientip": "200.114.49.218",
+  "geoip": {
+    "continent": {
+      "code": "SA",
+      "geoname_id": 6255150,
+      "name": "South America"
+    },
+    "country": {
+      "geoname_id": 3686110,
+      "iso_code": "CO",
+      "name": "Colombia"
+    },
+    "city": {
+      "geoname_id": 3674962,
+      "name": "Medellín"
+    },
+    "location": {
+      "latitude": 6.2518,
+      "longitude": -75.5636,
+      "time_zone": "America/Bogota"
+    },
+    "registered_country": {
+      "geoname_id": 3686110,
+      "iso_code": "CO",
+      "name": "Colombia"
+    },
+    "subdivisions": [{
+      "geoname_id": 3689815,
+      "iso_code": "ANT",
+      "name": "Antioquia"
+    }]
+  }
 }
 ```
 

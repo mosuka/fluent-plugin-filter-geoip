@@ -119,7 +119,11 @@ module Fluent
         end
 
         if geoip.found? then
-          record.merge!({@output_field => {}})
+
+          unless @flatten then
+            record.merge!({@output_field => {}})
+          end
+
           if @continent then
             continent_hash = {}
 
@@ -348,7 +352,6 @@ module Fluent
           if @connection_type then
             unless geoip.connection_type.nil? then
               if @flatten then
-                #record[[@output_field, 'connection_type'].join(@field_delimiter)] = geoip.connection_type
                 record.merge!(to_flatten(geoip.connection_type, [@output_field, 'connection_type'], @field_delimiter))
               else
                 record[@output_field].merge!({'connection_type' => geoip.connection_type})
