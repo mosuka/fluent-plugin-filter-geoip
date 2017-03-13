@@ -4,19 +4,21 @@ This is a [Fluentd](http://fluentd.org/) filter plugin for adding [GeoIP data](h
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Install it yourself as:
 
 ```
-gem 'fluent-plugin-filter-geoip'
+$ gem install fluent-plugin-filter-geoip
 ```
 
-And then execute:
+## How to build
 
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install fluent-plugin-filter-geoip
+```
+$ gem install bundler
+$ bundle install
+$ rake test
+$ rake build
+$ rake install
+```
 
 ## Config parameters
 
@@ -193,7 +195,7 @@ connection_type true
   database_path ./geoip/database/GeoLite2-City.mmdb
 
   lookup_field clientip
-  field_prefix geoip
+  output_field geoip
   field_delimiter .
   flatten false
 
@@ -259,6 +261,73 @@ then output bocomes as belows:
 }
 ```
 
+
+## Example command
+
+Start fluentd using example fluent.conf.
+
+```
+$ fluentd -c ~/github/fluent-plugin-filter-geoip/fluent.conf
+2017-03-13 15:11:31 +0900 [info]: reading config file path="/Users/mosuka/github/fluent-plugin-filter-geoip/fluent.conf"
+2017-03-13 15:11:31 +0900 [info]: starting fluentd-0.12.33
+2017-03-13 15:11:31 +0900 [info]: gem 'fluent-plugin-filter-geoip' version '0.5.3'
+2017-03-13 15:11:31 +0900 [info]: gem 'fluent-plugin-grok-parser' version '1.0.0'
+2017-03-13 15:11:31 +0900 [info]: gem 'fluent-plugin-output-solr' version '0.4.0'
+2017-03-13 15:11:31 +0900 [info]: gem 'fluent-plugin-ua-parser' version '1.1.0'
+2017-03-13 15:11:31 +0900 [info]: gem 'fluentd' version '0.12.33'
+2017-03-13 15:11:31 +0900 [info]: gem 'fluentd' version '0.12.32'
+2017-03-13 15:11:31 +0900 [info]: adding filter pattern="messages" type="geoip"
+2017-03-13 15:11:31 +0900 [info]: Current MD5: cc1f9a6f7def282bc33cb477f3379d9f
+2017-03-13 15:11:31 +0900 [info]: Fetched MD5: cc1f9a6f7def282bc33cb477f3379d9f
+2017-03-13 15:11:32 +0900 [info]: adding match pattern="messages" type="stdout"
+2017-03-13 15:11:32 +0900 [info]: adding source type="forward"
+2017-03-13 15:11:32 +0900 [info]: using configuration file: <ROOT>
+  <source>
+    @type forward
+    port 24224
+  </source>
+  <filter messages>
+    @type geoip
+    enable_auto_download true
+    md5_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.md5
+    download_url http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz
+    md5_path ./geoip/database/GeoLite2-City.md5
+    database_path ./geoip/database/GeoLite2-City.mmdb
+    lookup_field clientip
+    output_field geoip
+    field_delimiter .
+    flatten false
+    locale en
+    continent true
+    country true
+    city true
+    location true
+    postal true
+    registered_country true
+    represented_country true
+    subdivisions true
+    traits true
+    connection_type true
+  </filter>
+  <match messages>
+    type stdout
+  </match>
+</ROOT>
+2017-03-13 15:11:32 +0900 [info]: listening fluent socket on 0.0.0.0:24224
+```
+
+Send message via `fluent-cat`.
+
+```
+$ echo '{"clientip": "200.114.49.218"}' | fluent-cat messages
+```
+
+Fluentd outputs message in standard output.
+
+```
+2017-03-13 15:13:02 +0900 messages: {"clientip":"200.114.49.218","geoip":{"continent":{"code":"SA","geoname_id":6255150,"name":"South America"},"country":{"geoname_id":3686110,"iso_code":"CO","name":"Colombia"},"city":{"geoname_id":3674962,"name":"Medellín"},"location":{"latitude":6.2518,"longitude":-75.5636,"time_zone":"America/Bogota"},"registered_country":{"geoname_id":3686110,"iso_code":"CO","name":"Colombia"},"subdivisions":[{"geoname_id_0":3689815,"iso_code_0":"ANT","name_0":"Antioquia"}]}}
+```
+
 ## Development
 
 After checking out the repo, run `bundle install` to install dependencies. Then, run `rake test` to run the tests.
@@ -266,4 +335,3 @@ After checking out the repo, run `bundle install` to install dependencies. Then,
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/mosuka/fluent-plugin-filter-geoip.
-
