@@ -32,8 +32,8 @@ class SolrOutputTest < Test::Unit::TestCase
     connection_type true
   ]
 
-  def create_driver(conf=CONFIG, tag='test')
-    Fluent::Test::FilterTestDriver.new(Fluent::GeoIPFilter, tag).configure(conf)
+  def create_driver(conf=CONFIG)
+    Fluent::Test::Driver::Filter.new(Fluent::Plugin::GeoIPFilter).configure(conf)
   end
 
   def test_configure
@@ -59,17 +59,15 @@ class SolrOutputTest < Test::Unit::TestCase
     d = create_driver(CONFIG)
     host = '212.99.123.25'
 
-    d.run do
-      d.emit({'host' => host})
+    d.run(default_tag: 'test') do
+      d.feed({'host' => host})
     end
 
-    emits = d.emits
+    emits = d.filtered
 
     assert_equal 1, emits.length
 
-    assert_equal 'test', emits[0][0]
-
-    h = emits[0][2]
+    h = emits[0][1]
 
     assert_equal 'EU', h['geoip.continent.code']
     assert_equal 6255148, h['geoip.continent.geoname_id']

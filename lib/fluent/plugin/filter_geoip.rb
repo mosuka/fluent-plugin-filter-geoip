@@ -2,8 +2,9 @@ require 'maxminddb'
 require 'json'
 require 'fileutils'
 require 'open-uri'
+require 'fluent/plugin/filter'
 
-module Fluent
+module Fluent::Plugin
   class GeoIPFilter < Filter
     Fluent::Plugin.register_filter('geoip', self)
 
