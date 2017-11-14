@@ -226,7 +226,7 @@ connection_type true
 
 Assuming following inputs are coming:
 
-```javascript
+```json
 {
   "clientip": "200.114.49.218"
 }
@@ -234,7 +234,7 @@ Assuming following inputs are coming:
 
 then output bocomes as belows:
 
-```javascript
+```json
 {
   "clientip": "200.114.49.218",
   "geoip": {
