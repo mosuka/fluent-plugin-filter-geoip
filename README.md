@@ -2,6 +2,16 @@
 
 This is a [Fluentd](http://fluentd.org/) filter plugin for adding [GeoIP data](http://dev.maxmind.com/geoip/geoip2/geolite2/) to record. Supports the new Maxmind v2 database formats.
 
+## Requirements
+
+| fluent-plugin-filter-geoip | fluentd         | td-agent | ruby   |
+| -------------------------- | --------------- | -------- | ------ |
+| 1.x.x                      | >= 0.14.0, < 2  | 3        | >= 2.1 |
+| 0.x.x                      | ~> 0.12.0       | 2        | >= 1.9 |
+
+* The 1.x.x series is developed from this branch (master)
+* The 0.x.x series (compatible with fluentd v0.12, and td-agent 2) is developed on the [v0.x.x branch](https://github.com/mosuka/fluent-plugin-filter-geoip/tree/v0.x.x)
+
 ## Installation
 
 Install it yourself as:
